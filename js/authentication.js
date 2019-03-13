@@ -1,3 +1,4 @@
+
 var app = angular.module("myApp", []);
 app.controller("userCtrl", function($scope, $http){
 	$scope.passw1 = '';
@@ -36,10 +37,18 @@ app.controller("userCtrl", function($scope, $http){
 	)
 		    
 	.then(function successCallback(response){
-		if(response.success == true) {
-			console.log(response.status);
+		if(response.data.success == true) {
+			//redirect with username data as the unique identifier
+			var myRedirect = function(redirectUrl, arg, value) {
+			  var form = $('<form action="' + redirectUrl + '" method="post">' +
+			  '<input type="hidden" name="'+ arg +'" value="' + value + '"></input>' + '</form>');
+			  $('body').append(form);
+			  $(form).submit();
+			};
+			myRedirect("Members", "userName", "response.config.data.userName");
+
 			}else{
-			console.log(response.data.success);
+			console.log("User name or password error");
 			}
 	}, function errorCallback(){
 		console.log(response);

@@ -2,47 +2,56 @@
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <body ng-app="myApp" ng-controller="userCtrl">
 
 <div class="w3-container">
 
-<h3>Users</h3>
+<h3>Admin Section</h3>
+<div>
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"  >
+      <h3><b>Morning</b></h3>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <h3><b>Afternoon</b></h3>
+    </div>
+  </div>
+</div>
 
 <table class="w3-table w3-bordered w3-striped">
   <tr>
-    <th>Edit</th>
-    <th>First Name</th>
-    <th>Last Name</th>
+    <th></th>
+    <th>Name</th>
+    <th>Duty</th>
+    <th style="border-right: 5px solid black">Venue</th>
+    <th>Duty</th>
+    <th>Venue</th>
+    <th>status</th>
+    <th>sign</th>
+    <th>Comment</th>
   </tr>
   <tr ng-repeat="user in users">
     <td>
-      <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Edit</button>
+      <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Numbering</button>
     </td>
-    <td>{{ user.fName }}</td>
-    <td>{{ user.lName }}</td>
+    <td>{{ Name }}</td>
+    <td>{{ Duty }}</td>
+    <td style="border-right: 5px solid black">{{ Venue }}</td>
+    <td>{{ Duty }}</td>
+    <td>{{ Venue }}</td>
+    <td>{{ status }}</td>
+    <td>{{ sign }}</td>
+    <td>{{ comment }}</td>
   </tr>
 </table>
 <br>
-<button class="w3-btn w3-green w3-ripple" ng-click="editUser('new')">&#9998; Create New User</button>
+<button class="w3-btn w3-green w3-ripple" ng-click="editUser('new')">&#9998; Print Report</button>
 
-<form ng-hide="hideform">
-  <h3 ng-show="edit">Create New User:</h3>
-  <h3 ng-hide="edit">Edit User:</h3>
-    <label>First Name:</label>
-    <input class="w3-input w3-border" type="text" ng-model="fName" ng-disabled="!edit" placeholder="First Name">
-  <br>
-    <label>Last Name:</label>
-    <input class="w3-input w3-border" type="text" ng-model="lName" ng-disabled="!edit" placeholder="Last Name">
-  <br>
-    <label>Password:</label>
-    <input class="w3-input w3-border" type="password" ng-model="passw1" placeholder="Password">
-  <br>
-    <label>Repeat:</label>
-    <input class="w3-input w3-border" type="password" ng-model="passw2" placeholder="Repeat Password">
-  <br>
-  <button type="submit" class="w3-btn w3-green w3-ripple" ng-disabled="error || incomplete">&#10004; Save Changes</button>
-</form>
 
 </div>
 
