@@ -37,15 +37,21 @@ app.controller("userCtrl", function($scope, $http){
 	)
 		    
 	.then(function successCallback(response){
-		if(response.data.success == true) {
+		if(response.data.sucess == true) {
 			//redirect with username data as the unique identifier
-			var myRedirect = function(redirectUrl, arg, value) {
-			  var form = $('<form action="' + redirectUrl + '" method="post">' +
-			  '<input type="hidden" name="'+ arg +'" value="' + value + '"></input>' + '</form>');
-			  $('body').append(form);
-			  $(form).submit();
-			};
-			myRedirect("Members", "userName", "response.config.data.userName");
+				var myRedirect = function(redirectUrl, arg, value) {
+				  var form = $('<form action="' + redirectUrl + '" method="post">' +
+				  '<input type="hidden" name="'+ arg +'" value="' + value + '"></input>' + '</form>');
+				  $('body').append(form);
+				  $(form).submit();
+				};
+
+				var userName = response.config.data.userName;
+				if (userName !== "admin") {
+					myRedirect("Members", "userName" , "userName");
+				}else{
+					myRedirect("Admin", "userName" , "userName");
+				}			
 
 			}else{
 			console.log("User name or password error");
