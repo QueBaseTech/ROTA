@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 	require_once("../config/sessions.php");
 	require_once("../config/pdoconnect.php");
 
@@ -36,6 +37,6 @@
 			$_SESSION["ErrorMessage"] = "You're not supposed to be here";
 			header("Location: ../");
 		}
-	
+ob_get_flush();
 
  ?>

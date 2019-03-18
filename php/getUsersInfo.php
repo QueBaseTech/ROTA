@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-$conn = new mysqli("localhost", "root", "", "rota");
+$conn = new mysqli("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
 
 $result = $conn->query("SELECT userName,dutyDate,morningDuty,morningVenue,afternoonDuty,afternoonVenue,morningStatus,afternoonStatus,comment FROM rotausersduty");
 

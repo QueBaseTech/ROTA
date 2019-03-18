@@ -1,4 +1,5 @@
 <?php
+ob_start();
   // Include db config
   require_once("config/pdoconnect.php");
   require_once("config/sessions.php");
@@ -114,3 +115,5 @@
 
 </body>
 </html>
+
+<?php ob_get_flush(); ?>

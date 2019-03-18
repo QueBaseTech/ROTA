@@ -41,7 +41,7 @@
     <th>Venue</th>
   </tr>
   <?php 
-      $conn = mysqli_connect("localhost", "root", "", "rota");
+      $conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
       $userName = $_SESSION["userName"];
       $sql = "SELECT * FROM rotausersduty WHERE userName = '$userName' ";
         $result = $conn->query($sql);
@@ -66,7 +66,7 @@
 <br>
 <button class="w3-btn w3-green w3-ripple" ng-hide="edit" ng-click="newRecord()">&#9998; Create New record</button>
 
-<form ng-hide="hideform" method="POST" action="todatabase.php">
+<form ng-hide="hideform" method="POST" action="toDatabase.php">
   <h2 ng-show="edit"><b>New Record:</b></h2>
   <!-- <h3 ng-hide="edit">Edit User:</h3>-->
   <br>

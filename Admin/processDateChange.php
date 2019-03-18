@@ -1,4 +1,6 @@
-<?php $conn = mysqli_connect("localhost", "root", "", "rota"); 
+<?php 
+ob_start();
+$conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo"); 
  require_once("../config/sessions.php");
 ?>
 <!DOCTYPE html>
@@ -62,4 +64,4 @@ mysqli_close($conn);
 </body>
 </html>
 
-                            
+<?php ob_get_flush(); ?>                        

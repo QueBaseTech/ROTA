@@ -3,7 +3,7 @@
 <head>
   <title>ROTA Admin Index Page</title>
   <?php 
-
+ob_start();
   include('../links/simple_html_dom.php');
   echo file_get_html('../links/htmllinks.html');
   require_once("../config/sessions.php");
@@ -153,3 +153,5 @@
 
 </body>
 </html>
+
+<?php ob_get_flush(); ?>
