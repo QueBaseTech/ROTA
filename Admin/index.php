@@ -80,7 +80,7 @@ ob_start();
     </div>
   </div>
 
-
+<button class="w3-btn w3-green w3-ripple"><a href="Reports/adminReport.php">&#9998; Print Report</a></button>
 
   <div>
     <div class="row">
@@ -145,7 +145,7 @@ ob_start();
     </table>
   </div>
   <br>
-  <button class="w3-btn w3-green w3-ripple" ng-click="">&#9998; Print Report</button>
+  
 
 </div>
 

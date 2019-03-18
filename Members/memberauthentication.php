@@ -3,5 +3,10 @@
     header('location: ../index.php');
     exit;
     }
+    if($_SESSION["userName"] == "admin"){
+	  $_SESSION["ErrorMessage"] = "Please login first";
+	    header('location: ../index.php');
+	    exit;
+	    }
 
 ?>

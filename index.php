@@ -63,10 +63,7 @@ ob_start();
   unset($conn);
 }
  ?>
-
-
-
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
   <header>
     <title>The Login page</title>

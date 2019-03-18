@@ -1,12 +1,29 @@
 <!DOCTYPE html>  
 <html>
-<title>ROTA Members Index Page</title>
+<head>
+  <title>ROTA Members Index Page</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <?php 
+  ob_start();
   include('../links/simple_html_dom.php');
   echo file_get_html('../links/htmllinks.html');
   require_once("../config/sessions.php");
   require_once("memberauthentication.php");
  ?>
+ <style>
+     a {      
+      color: green;
+     }
+     a:hover {
+      color: red;
+      font-size: 1.2em;
+     }
+   </style>
+</head>
+
 
 <body ng-app="myApp" ng-controller="membersCtrl">
 
@@ -16,30 +33,53 @@
     echo SuccessMessage();
    ?>
 
-<h3>User: <?php echo $_SESSION["userName"]; ?></h3>
-<div>
-  <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-      
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"  >
-      <h3><b>Morning</b></h3>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-      <h3><b>Afternoon</b></h3>
-    </div>
-  </div>
-</div>
+<h3>User: <a href="profile.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; "><?php echo $_SESSION["userName"]; ?> </a></h3>
 
-<table class="w3-table w3-bordered w3-striped">
-  <tr>
-    <th></th>
-    <th>Date</th>
-    <th>Duty</th>
-    <th style="border-right: 5px solid black">Venue</th>
-    <th>Duty</th>
-    <th>Venue</th>
-  </tr>
+    <!--Selection button for the user to choose max Rows-->
+    <div class="form-group">
+          <select name="state" id="maxRows" class="form-control" style="width:150px;">
+            <option value="5000">Show All</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="75">75</option>
+            <option value="100">100</option>
+          </select>
+    </div>
+<div>
+  
+</div>
+<table class="w3-table w3-bordered w3-striped" id="mytable"> 
+   <!--Morning and Afternoon -->
+    <thead>
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+          <th></th>
+          <th><h3><b>Morning</b></h3></th>
+          <th></th>
+          <th></th>        
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
+          <th><h3><b>Afternoon</b></h3></th>
+          <th></th>                
+        </div>
+      </div>
+    </thead>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <th>Date</th>
+        <th>Duty</th>
+        <th style="border-right: 5px solid black">Venue</th>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
+        <th>Duty</th>
+        <th>Venue</th>
+      </div>
+    </div>
+
   <?php 
       $conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
       $userName = $_SESSION["userName"];
@@ -47,22 +87,30 @@
         $result = $conn->query($sql);
         if($result->num_rows > 0){
           while($datarows = $result->fetch_assoc()){ ?>
-  <tr>
-    <td>
-      <button class="w3-btn w3-ripple" ng-click="editUser(user.id)">&#9998; Numbering</button>
-    </td>
-    <td><?php echo $datarows["dutyDate"]; ?></td>
-    <td><?php echo $datarows["morningDuty"]; ?></td>
-    <td style="border-right: 5px solid black"><?php echo $datarows["morningVenue"]; ?></td>
-    <td><?php echo $datarows["afternoonDuty"]; ?></td>
-    <td><?php echo $datarows["afternoonVenue"]; ?></td>
-</tr>
+      <tbody>
+        <tr>
+          <td><?php echo $datarows["dutyDate"]; ?></td>
+          <td><?php echo $datarows["morningDuty"]; ?></td>
+          <td style="border-right: 5px solid black"><?php echo $datarows["morningVenue"]; ?></td>
+          <td><?php echo $datarows["afternoonDuty"]; ?></td>
+          <td><?php echo $datarows["afternoonVenue"]; ?></td>
+        </tr>
+      </tbody>
+      
          <?php }
         }
      ?>
     
   
 </table>
+<!--For purposes of pagination-->
+    <div class="pagination-container">
+      <nav>
+        <ul class="pagination"></ul>
+      </nav>
+    </div>
+<br>
+    
 <br>
 <button class="w3-btn w3-green w3-ripple" ng-hide="edit" ng-click="newRecord()">&#9998; Create New record</button>
 
@@ -114,8 +162,60 @@
 </form>
 
 </div>
-
-<script src= "../js/members.js"></script>
-
+  
+  <!--My scripts on load-->
+  <script src= "../js/members.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script>
+    var table = '#mytable';
+    $('#maxRows').on('change', function(){
+      $('.pagination').html('')
+      var trnum = 0;
+      var maxRows = parseInt($(this).val())
+      var totalRows = $(table+' tbody tr').length
+      $(table+' tr:gt(0)').each(function(){
+        trnum++
+        if(trnum > maxRows){
+          $(this).hide()
+        }
+        if(trnum <= maxRows){
+          $(this).show()
+        }
+      })
+      if (totalRows > maxRows) {
+        var pagenum = Math.ceil(totalRows/maxRows)
+        for(var i=1; i<=pagenum;){
+          $('.pagination').append('<li data-page="'+i+'">\<span>'+ i++ + '<span class="sr-only">(current)</span></span>\</li>').show()
+        }
+      }
+      $('.pagination li:first-child').addClass('active')
+      $('.pagination li').on('click',function(){
+        var pageNum = $(this).attr('data-page')
+        var trIndex = 0;
+        $('.pagination li').removeClass('active')
+        $(this).addClass('active')
+        $(table+' tr:gt(0)').each(function(){
+          trIndex++
+          if (trIndex > (maxRows*pageNum) || trIndex <= ((maxRows*pageNum)-maxRows)) {
+            $(this).hide()
+          }else{
+            $(this).show()
+          }
+        })
+      })
+    })
+    $(function(){
+      $('table tr:eq(0)').prepend('')
+      var id = 0;
+      $('table tr:gt(0)').each(function(){
+        id++
+        $(this).prepend('<td>'+id+'</td>')
+      })
+    })
+  </script>
 </body>
 </html>
+
+<?php 
+  ob_get_flush();
+ ?>
