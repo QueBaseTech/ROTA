@@ -36,7 +36,7 @@
 <h3>User: <a href="profile.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; "><?php echo $_SESSION["userName"]; ?> </a></h3>
 
     <!--Selection button for the user to choose max Rows-->
-    <div class="form-group">
+        <div class="form-group">
           <select name="state" id="maxRows" class="form-control" style="width:150px;">
             <option value="5000">Show All</option>
             <option value="5">5</option>
@@ -47,13 +47,8 @@
             <option value="75">75</option>
             <option value="100">100</option>
           </select>
-
-          <!--Logout button-->
-          <span style="float: right;"><a href="logout.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; ">Logout</a></span>
     </div>
-<div>
-  
-</div>
+
 <table class="w3-table w3-bordered w3-striped" id="mytable"> 
    <!--Morning and Afternoon -->
     <thead>
@@ -111,16 +106,30 @@
      ?>
     
   
-</table>
-<!--For purposes of pagination-->
-    <div class="pagination-container">
-      <nav>
-        <ul class="pagination"></ul>
-      </nav>
-    </div>
-<br>
-    
-<button class="w3-btn w3-green w3-ripple" ng-hide="edit" ng-click="newRecord()">&#9998; Create New record</button>
+      </table>
+      <!--For purposes of pagination-->
+          <div class="pagination-container">
+            <nav>
+              <ul class="pagination"></ul>
+            </nav>
+          </div>
+      <br>
+
+      <!--Print Form and Log out buttons-->
+    <div class="row" style="margin-top: 20px">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+        <!--Button for printing reports-->
+        <button class="w3-btn w3-green w3-ripple" ng-hide="edit" ng-click="newRecord()">&#9998; Create New record</button>
+
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+        <!--Logout button-->
+        <button class="w3-btn w3-green w3-ripple" style="margin:10px; text-align: center;"><a href="logout.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; color: white">Logout</a></button>
+
+      </div>
+    </div> 
 
 <form ng-hide="hideform" method="POST" action="toDatabase.php">
   <h2 ng-show="edit"><b>New Record:</b></h2>
