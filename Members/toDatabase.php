@@ -14,17 +14,25 @@ ob_start();
 		$afternoonDuty = trim($_POST["afternoonDuty"]);
 		$afternoonVenue = trim($_POST["afternoonVenue"]);
 		$comment = trim($_POST["comment"]);
+		$morningStartTime = trim($_POST["morningStartTime"]);
+		$morningEndTime = trim($_POST["morningEndTime"]);
+		$afternoonStartTime = trim($_POST["afternoonStartTime"]);
+		$afternoonEndTime = trim($_POST["afternoonEndTime"]);
 
 		
 	    // our SQL statements
-	    $stmt = $conn->prepare("INSERT INTO rotausersduty (userName,dutyDate,morningDuty,morningVenue,afternoonDuty,afternoonVenue,comment) 
-	    VALUES (:userName,:dutyDate, :morningDuty,:morningVenue,:afternoonDuty,:afternoonVenue,:comment)");
+	    $stmt = $conn->prepare("INSERT INTO rotausersduty (userName,dutyDate,morningDuty,morningVenue,morningStartTime,morningEndTime,afternoonDuty,afternoonVenue,afternoonStartTime,afternoonEndTime,comment) 
+	    VALUES (:userName,:dutyDate, :morningDuty,:morningVenue,:morningStartTime,:morningEndTime,:afternoonDuty,:afternoonVenue,:afternoonStartTime,:afternoonEndTime,:comment)");
 	    $stmt->bindParam(':userName', $userName);
 	    $stmt->bindParam(':dutyDate', $Date);
 	    $stmt->bindParam(':morningDuty', $morningDuty);
 	    $stmt->bindParam(':morningVenue', $morningVenue);
+	    $stmt->bindParam(':morningStartTime', $morningStartTime);
+	    $stmt->bindParam(':morningEndTime', $morningEndTime);
 	    $stmt->bindParam(':afternoonDuty', $afternoonDuty);
 	    $stmt->bindParam(':afternoonVenue', $afternoonVenue);
+	    $stmt->bindParam(':afternoonStartTime', $afternoonStartTime);
+	    $stmt->bindParam(':afternoonEndTime', $afternoonEndTime);
 	    $stmt->bindParam(':comment', $comment);
 
 	    if ($stmt->execute()) {

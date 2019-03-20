@@ -1,44 +1,68 @@
-<?php
-//include pdf_mc_table.php, not fpdf17/fpdf.php
-include('pdf_mc_table.php');
-$conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
+<?php 
+ob_start();
+	require "fpdf17/fpdf.php";
+	$db = new PDO('mysql:host=localhost;dbname=pasodomo_pasodo','pasodomo_oscar','Oscar3296!!!');
 
-//make new object
-$pdf = new PDF_MC_Table();
-$pdf->AliasNbPages('{pages}');
+	class myPDF extends FPDF{
+		function header(){
+			$this->Image('../../img/logo.png',10,10,10);
+			$this->SetFont('Arial','B',14);
+			$this->Cell(276,5,'ROTA FOR CHAMBER AND COMMITTEES - AUDIO OFFICERS',0,0,'C');
+			$this->Ln();
+			$this->SetFont('Times','',12);
+			$this->Cell(276,10,'Blah Blah Blah',0,0,'C');
+			$this->Ln(20);
 
-//add page, set font
-$pdf->AddPage();
-$pdf->SetFont('Arial','',14);
-
-//set width for each column (6 columns)
-$pdf->SetWidths(Array(10,25,25,25,10,25,25,20,25));
-
-//set alignment
-//$pdf->SetAligns(Array('','R','C','','',''));
-
-//set line height. This is the height of each lines, not rows.
-$pdf->SetLineHeight(5);
-
-//Query the Database
-	$sql = "SELECT * FROM rotausersduty";
-	$result = $conn->query($sql);
-	$x = 1;
-	while($row = $result->fetch_assoc()){
-		//User Details
-		$pdf->Cell(10,5,$x,1,0,'',false);
-		$pdf->Cell(25,5,$row['userName'],1,0,'',false);
-		$pdf->Cell(25,5,$row['morningDuty'],1,0,'',false);
-		$pdf->Cell(25,5,$row['morningVenue'],1,0,'',false);
-		$pdf->Cell(10,5,'',1,0,'',false);
-		$pdf->Cell(25,5,$row['afternoonDuty'],1,0,'',false);
-		$pdf->Cell(25,5,$row['afternoonVenue'],1,0,'',false);
-		$pdf->Cell(20,5,' ',1,0,'',false);
-		$pdf->Cell(25,5,$row['comment'],1,1,'',false);
-
-		$x++;
+			$this->SetFont('Times','B',12);
+			$this->Cell(45, 10, "", 0,0);
+			$this->Cell(70,10,'Morning',0,0,'C');
+			$this->Cell(10,10,'',0,0,'C');
+			$this->Cell(70,10,'Afternoon',0,0,'C');
+			$this->Cell(81,10,'',0,0,'C');
+			$this->Ln();
+		}
+		function footer(){
+			$this->SetY(-15);
+			$this->SetFont('Arial','',8);
+			$this->Cell(0,10,'Page '.$this->PageNo(). '/{nb}',0,0,'C');
+		}
+		function headerTable(){
+			$this->SetFont('Times','B',12);
+			$this->Cell(10,10,'',1,0,'C');
+			$this->Cell(35,10,'Name',1,0,'C');
+			$this->Cell(35,10,'Duty',1,0,'C');
+			$this->Cell(35,10,'Venue',1,0,'C');
+			$this->Cell(10,10,'',1,0,'C');
+			$this->Cell(35,10,'Duty',1,0,'C');
+			$this->Cell(35,10,'Venue',1,0,'C');
+			$this->Cell(20,10,'Sign',1,0,'C');
+			$this->Cell(61,10,'Comment',1,0,'C');
+			$this->Ln();
+		}
+		function viewTable($db){
+			$this->SetFont('Times','',12);
+			$stmt = $db->query('SELECT * FROM rotausersduty');
+			while($data = $stmt->fetch(PDO::FETCH_OBJ)) {
+				$this->Cell(10,10,'',1,0,'C');
+				$this->Cell(35,10,$data->userName,1,0,'L');
+				$this->Cell(35,10,$data->morningDuty,1,0,'L');
+				$this->Cell(35,10,$data->morningVenue,1,0,'L');
+				$this->Cell(10,10,'',1,0,'L');
+				$this->Cell(35,10,$data->afternoonDuty,1,0,'L');
+				$this->Cell(35,10,$data->afternoonVenue,1,0,'L');
+				$this->Cell(20,10,'',1,0,'L');
+				$this->Cell(61,10,$data->comment,1,0,'L');
+				$this->Ln();
+			}
+		}
 	}
 
-//output the pdf
-$pdf->Output();
+	$pdf = new myPDF();
+	$pdf->AliasNbPages();
+	$pdf->AddPage('L','A4',0);
+	$pdf->headerTable();
+	$pdf->viewTable($db);
+	$pdf->Output();
 
+	ob_get_flush();
+ ?>

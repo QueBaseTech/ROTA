@@ -7,10 +7,11 @@ ob_start();
   include('../links/simple_html_dom.php');
   echo file_get_html('../links/htmllinks.html');
   require_once("../config/sessions.php");
+  require_once("statusControl.php");
 
   if($_SESSION["userName"] !== "admin"){
-  $_SESSION["ErrorMessage"] = "Please login first";
-    header('location: ../index.php');
+    header('location: ../../index.php');
+     $_SESSION["ErrorMessage"] = "Please login to access admin";
     exit;
     }
 
@@ -80,8 +81,6 @@ ob_start();
     </div>
   </div>
 
-<button class="w3-btn w3-green w3-ripple"><a href="Reports/adminReport.php">&#9998; Print Report</a></button>
-
   <div>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin: 5px; padding:5px">
@@ -114,7 +113,7 @@ ob_start();
         
 
     <?php 
-      $conn = mysqli_connect("localhost", "root", "", "rota");
+      $conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
       $sql = "SELECT * FROM rotausersduty";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
@@ -143,6 +142,18 @@ ob_start();
      ?>
 
     </table>
+    <div class="row" style="margin-top: 20px">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <!--Button for printing reports-->
+        <button class="w3-btn w3-green w3-ripple" style="margin:10px; text-align: center;"><a href="Reports/adminReport.php" style="text-decoration: none; color: white">&#9998; Print Report</a></button>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <!--Logout button-->
+        <button class="w3-btn w3-green w3-ripple" style="margin:10px; text-align: center;"><a href="logout.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; color: white">Logout</a>
+      </div>
+    </div>
+    
+    
   </div>
   <br>
   
@@ -154,4 +165,6 @@ ob_start();
 </body>
 </html>
 
-<?php ob_get_flush(); ?>
+<?php 
+  ob_get_flush(); 
+?>

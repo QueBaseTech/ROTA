@@ -47,6 +47,9 @@
             <option value="75">75</option>
             <option value="100">100</option>
           </select>
+
+          <!--Logout button-->
+          <span style="float: right;"><a href="logout.php?userName=<?php echo $_SESSION['userName']; ?>" style="text-decoration: none; ">Logout</a></span>
     </div>
 <div>
   
@@ -54,31 +57,37 @@
 <table class="w3-table w3-bordered w3-striped" id="mytable"> 
    <!--Morning and Afternoon -->
     <thead>
-      <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-          <th></th>
-          <th><h3><b>Morning</b></h3></th>
-          <th></th>
-          <th></th>        
+      <tr>
+        <div class="row">
+          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <th></th>
+            <th><h3><b>Morning</b></h3></th>
+            <th></th>
+            <th></th>        
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
+            <th><h3><b>Afternoon</b></h3></th>
+            <th></th>                
+          </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
-          <th><h3><b>Afternoon</b></h3></th>
-          <th></th>                
+      </tr>
+      <tr>
+        <div class="row">
+          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+            <th>Date</th>
+            <th>Duty</th>
+            <th style="border-right: 5px solid black">Venue</th>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
+            <th>Duty</th>
+            <th>Venue</th>
+          </div>
         </div>
-      </div>
+      </tr>  
+
     </thead>
 
-    <div class="row">
-      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-        <th>Date</th>
-        <th>Duty</th>
-        <th style="border-right: 5px solid black">Venue</th>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  >
-        <th>Duty</th>
-        <th>Venue</th>
-      </div>
-    </div>
+    
 
   <?php 
       $conn = mysqli_connect("localhost", "pasodomo_oscar", "Oscar3296!!!", "pasodomo_pasodo");
@@ -111,7 +120,6 @@
     </div>
 <br>
     
-<br>
 <button class="w3-btn w3-green w3-ripple" ng-hide="edit" ng-click="newRecord()">&#9998; Create New record</button>
 
 <form ng-hide="hideform" method="POST" action="toDatabase.php">
@@ -126,6 +134,18 @@
   <br>
   <!--Morning shift-->
   <h3><b>Morning</b></h3>
+    <label>Start Time:</label>
+      <input class="w3-input w3-border" type="time" ng-model="morningStartTime" name="morningStartTime" required>
+      <span style="color:red" ng-show="myForm.morningStartTime.$invalid">
+        <span ng-show="myForm.morningStartTime.$error.required">Time is required.</span>
+      </span>
+    <br>
+    <label>End Time:</label>
+      <input class="w3-input w3-border" type="time" ng-model="morningEndTime" name="morningEndTime" required>
+      <span style="color:red" ng-show="myForm.morningEndTime.$invalid">
+        <span ng-show="myForm.morningEndTime.$error.required">Time is required.</span>
+      </span>
+    <br>
     <label>Duty:</label>
     <input class="w3-input w3-border" type="text" ng-model="morningDuty" name="morningDuty" placeholder="Morning Duty" required >
     <span style="color:red" ng-show="myForm.morningDuty.$invalid">
@@ -140,7 +160,19 @@
   <br>
   <!--Afternoon shift-->
   <h3><b>Afternoon</b></h3>
-
+    <label>Start Time:</label>
+      <input class="w3-input w3-border" type="time" ng-model="afternoonStartTime" name="afternoonStartTime" required>
+      <span style="color:red" ng-show="myForm.afternoonStartTime.$invalid">
+        <span ng-show="myForm.afternoonStartTime.$error.required">Date is required.</span>
+      </span>
+    <br>
+    <!--Afternoon stop time-->
+    <label>End Time:</label>
+      <input class="w3-input w3-border" type="time" ng-model="afternoonEndTime" name="afternoonEndTime" required>
+      <span style="color:red" ng-show="myForm.afternoonEndTime.$invalid">
+        <span ng-show="myForm.afternoonEndTime.$error.required">Date is required.</span>
+      </span>
+    <br>
     <label>Duty:</label>
     <input class="w3-input w3-border" type="text" ng-model="afternoonDuty"  name="afternoonDuty" placeholder="Afternoon duty" required >
     <span style="color:red" ng-show="myForm.afternoonDuty.$invalid">
